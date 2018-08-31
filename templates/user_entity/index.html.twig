@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UserEntity index{% endblock %}
+
+{% block body %}
+    <h1>UserEntity index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Create_at</th>
+                <th>Update_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user_entity in user_entities %}
+            <tr>
+                <td>{{ user_entity.id }}</td>
+                <td>{{ user_entity.email }}</td>
+                <td>{{ user_entity.firstname }}</td>
+                <td>{{ user_entity.lastname }}</td>
+                <td>{{ user_entity.createAt ? user_entity.createAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user_entity.updateAt ? user_entity.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('user_entity_show', {'id': user_entity.id}) }}">show</a>
+                    <a href="{{ path('user_entity_edit', {'id': user_entity.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('user_entity_new') }}">Create new</a>
+{% endblock %}
