@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 /**
  * @Route("/user/entity")
@@ -34,18 +36,27 @@ class UserEntityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userEntity->setCreateAt(new \Datetime);
-            $userEntity->setUpdateAt(new \Datetime);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($userEntity);
-            $userEntity->saveUserGroups(
-                $request->request->all()['user_entity']['user_groups'],
-                $this->getDoctrine()
-            );
-            $em->flush();
+            try {
+                $userEntity->setCreateAt(new \Datetime);
+                $userEntity->setUpdateAt(new \Datetime);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($userEntity);
+                $userEntity->saveUserGroups(
+                    $request->request->all()['user_entity']['user_groups'],
+                    $this->getDoctrine()
+                );
+                $em->flush();
 
-            $this->addFlash('success', 'New user was added');
-            return $this->redirectToRoute('user_entity_index');
+                $this->addFlash('success', 'New user was added');
+                return $this->redirectToRoute('user_entity_index');
+            }
+            catch (\Exception $e) {
+                $this->addFlash('error', 'Unknown error on server!');
+                
+                $log = new Logger('user_entity');
+                $log->pushHandler(new StreamHandler('user_entity.log', Logger::ERROR));
+                $log->addError($e->getMessage());
+            }
         }
 
         return $this->render('user_entity/new.html.twig', [
@@ -75,14 +86,23 @@ class UserEntityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userEntity->saveUserGroups(
-                $request->request->all()['user_entity']['user_groups'],
-                $this->getDoctrine()
-            );
-            $this->getDoctrine()->getManager()->flush();
+            try {
+                $userEntity->saveUserGroups(
+                    $request->request->all()['user_entity']['user_groups'],
+                    $this->getDoctrine()
+                );
+                $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', 'User was changed');
-            return $this->redirectToRoute('user_entity_edit', ['id' => $userEntity->getId()]);
+                $this->addFlash('success', 'User was changed');
+                return $this->redirectToRoute('user_entity_edit', ['id' => $userEntity->getId()]);
+            }
+            catch (\Exception $e) {
+                $this->addFlash('error', 'Unknown error on server!');
+                
+                $log = new Logger('user_entity');
+                $log->pushHandler(new StreamHandler('user_entity.log', Logger::ERROR));
+                $log->addError($e->getMessage());
+            }
         }
 
         return $this->render('user_entity/edit.html.twig', [
