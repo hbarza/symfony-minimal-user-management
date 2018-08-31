@@ -140,7 +140,7 @@ class UserEntity
     /**
      * Remove all user_group_user_entity recoreds for current user
      */
-    public function removeUserGroup(UserGroup $userGroup): self
+    public function removeUserGroup($doctrine): self
     {
         if ($this->getID()) {
             $sql    = "delete from user_group_user_entity where user_entity_id = {$this->getID()}";

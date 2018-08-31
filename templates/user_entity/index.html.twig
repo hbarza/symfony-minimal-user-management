@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}UserEntity index{% endblock %}
+{% block title %}Users List{% endblock %}
 
 {% block body %}
-    <h1>UserEntity index</h1>
+    <h1>Users List</h1>
 
     <table class="table">
         <thead>
@@ -12,9 +12,9 @@
                 <th>Email</th>
                 <th>Firstname</th>
                 <th>Lastname</th>
-                <th>Create_at</th>
-                <th>Update_at</th>
-                <th>actions</th>
+                <th>Create at</th>
+                <th>Update at</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -27,17 +27,17 @@
                 <td>{{ user_entity.createAt ? user_entity.createAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ user_entity.updateAt ? user_entity.updateAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('user_entity_show', {'id': user_entity.id}) }}">show</a>
-                    <a href="{{ path('user_entity_edit', {'id': user_entity.id}) }}">edit</a>
+                    <a class="fa fa-eye fa-lg mr-3" href="{{ path('user_entity_show', {'id': user_entity.id}) }}" title="Show"></a>
+                    <a class="fa fa-pencil fa-lg" href="{{ path('user_entity_edit', {'id': user_entity.id}) }}" title="Edit"></a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">No Records Found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('user_entity_new') }}">Create new</a>
+    <a class="btn btn-outline-primary mr-2" href="{{ path('user_entity_new') }}">Create New</a>
 {% endblock %}

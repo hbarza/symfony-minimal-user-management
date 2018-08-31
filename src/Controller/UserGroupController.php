@@ -85,7 +85,7 @@ class UserGroupController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$userGroup->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
-            if (!$userGroup->getUser()->count()) {
+            if (!$userGroup->getUsers()->count()) {
                 $em->remove($userGroup);
                 $em->flush();
                 $this->addFlash('success', 'Group was removed');

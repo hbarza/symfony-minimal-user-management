@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New UserGroup{% endblock %}
+{% block title %}New Group{% endblock %}
 
 {% block body %}
-    <h1>Create new UserGroup</h1>
+    <h1>Create New Group</h1>
 
     {{ include('user_group/_form.html.twig') }}
 
-    <a href="{{ path('user_group_index') }}">back to list</a>
+    <a class="btn btn-outline-secondary mr-1" href="{{ path('user_group_index') }}">Back to List</a>
 {% endblock %}

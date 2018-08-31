@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}UserGroup index{% endblock %}
+{% block title %}Groups List{% endblock %}
 
 {% block body %}
-    <h1>UserGroup index</h1>
+    <h1>Groups List</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Create_at</th>
-                <th>Update_at</th>
-                <th>actions</th>
+                <th>Create at</th>
+                <th>Update at</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -23,17 +23,17 @@
                 <td>{{ user_group.createAt ? user_group.createAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ user_group.updateAt ? user_group.updateAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('user_group_show', {'id': user_group.id}) }}">show</a>
-                    <a href="{{ path('user_group_edit', {'id': user_group.id}) }}">edit</a>
+                    <a class="fa fa-eye fa-lg mr-3" href="{{ path('user_group_show', {'id': user_group.id}) }}" title="Show"></a>
+                    <a class="fa fa-pencil fa-lg" href="{{ path('user_group_edit', {'id': user_group.id}) }}" title="Edit"></a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">No Records Found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('user_group_new') }}">Create new</a>
+    <a class="btn btn-outline-primary mr-2" href="{{ path('user_group_new') }}">Create New</a>
 {% endblock %}

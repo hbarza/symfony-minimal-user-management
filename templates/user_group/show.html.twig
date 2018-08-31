@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}UserGroup{% endblock %}
+{% block title %}View Group{% endblock %}
 
 {% block body %}
-    <h1>UserGroup</h1>
+    <h1>View Group</h1>
 
     <table class="table">
         <tbody>
@@ -16,19 +16,18 @@
                 <td>{{ user_group.name }}</td>
             </tr>
             <tr>
-                <th>Create_at</th>
+                <th>Create at</th>
                 <td>{{ user_group.createAt ? user_group.createAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Update_at</th>
+                <th>Update at</th>
                 <td>{{ user_group.updateAt ? user_group.updateAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('user_group_index') }}">back to list</a>
-
-    <a href="{{ path('user_group_edit', {'id': user_group.id}) }}">edit</a>
+    <a class="btn btn-outline-secondary mr-1" href="{{ path('user_group_index') }}">Back to List</a>
+    <a class="btn btn-outline-primary mr-1" href="{{ path('user_group_edit', {'id': user_group.id}) }}">Edit</a>
 
     {{ include('user_group/_delete_form.html.twig') }}
 {% endblock %}

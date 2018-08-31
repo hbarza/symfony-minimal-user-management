@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}UserEntity{% endblock %}
+{% block title %}View User{% endblock %}
 
 {% block body %}
-    <h1>UserEntity</h1>
+    <h1>View User</h1>
 
     <table class="table">
         <tbody>
@@ -24,19 +24,28 @@
                 <td>{{ user_entity.lastname }}</td>
             </tr>
             <tr>
-                <th>Create_at</th>
+                <th>Create at</th>
                 <td>{{ user_entity.createAt ? user_entity.createAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Update_at</th>
+                <th>Update at</th>
                 <td>{{ user_entity.updateAt ? user_entity.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Groups</th>
+                <td>
+                    {% for user_group in user_groups %}
+                        {{ user_group.name }}<br>
+                    {% else %}
+                        No Group Found
+                    {% endfor %}
+                </td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('user_entity_index') }}">back to list</a>
-
-    <a href="{{ path('user_entity_edit', {'id': user_entity.id}) }}">edit</a>
+    <a class="btn btn-outline-secondary mr-1" href="{{ path('user_entity_index') }}">Back to List</a>
+    <a class="btn btn-outline-primary mr-1" href="{{ path('user_entity_edit', {'id': user_entity.id}) }}">Edit</a>
 
     {{ include('user_entity/_delete_form.html.twig') }}
 {% endblock %}
