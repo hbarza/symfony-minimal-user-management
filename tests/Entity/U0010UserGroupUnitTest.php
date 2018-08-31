@@ -79,7 +79,7 @@ class U0010UserGroupUnitTest extends KernelTestCase
             ->getRepository(UserGroup::class)
             ->findAll();
 
-        $this->assertCount($count, $groupsRepo);
+        $this->assertCount($count + 1, $groupsRepo);
     }
     
     /**

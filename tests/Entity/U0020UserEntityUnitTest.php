@@ -82,7 +82,7 @@ class U0020UserEntityUnitTest extends KernelTestCase
             ->getRepository(UserEntity::class)
             ->findAll();
 
-        $this->assertCount($count, $usersRepo);
+        $this->assertCount($count + 1, $usersRepo);
     }
     
     // /**
