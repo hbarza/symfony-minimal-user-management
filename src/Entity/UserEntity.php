@@ -19,7 +19,7 @@ class UserEntity
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64, unique=true)
      */
     private $email;
 
@@ -126,23 +126,44 @@ class UserEntity
         return $this->user_groups;
     }
 
+    /**
+     * Assign grop to user
+     */
     public function addUserGroup(UserGroup $userGroup): self
     {
-        if (!$this->user_groups->contains($userGroup)) {
-            $this->user_groups[] = $userGroup;
-            $userGroup->addUser($this);
+        $this->user_groups[] = $userGroup;
+        $userGroup->addUser($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove all user_group_user_entity recoreds for current user
+     */
+    public function removeUserGroup(UserGroup $userGroup): self
+    {
+        if ($this->getID()) {
+            $sql    = "delete from user_group_user_entity where user_entity_id = {$this->getID()}";
+            $em     = $doctrine->getManager();
+            $stmt   = $em->getConnection()->prepare($sql);
+            $stmt->execute();
         }
 
         return $this;
     }
 
-    public function removeUserGroup(UserGroup $userGroup): self
+    /**
+     * Update groups assigned to user
+     */
+    public function saveUserGroups(array $requestAll, $doctrine): self
     {
-        if ($this->user_groups->contains($userGroup)) {
-            $this->user_groups->removeElement($userGroup);
-            $userGroup->removeUser($this);
+        if ($this->getId()) {
+            $this->removeUserGroup($doctrine);
         }
-
+        $reqeustGroups = array_values($requestAll ?? []);
+        foreach ($reqeustGroups as $groupId) {
+            $this->addUserGroup($doctrine->getRepository(UserGroup::class)->find($groupId));
+        }
         return $this;
     }
 }

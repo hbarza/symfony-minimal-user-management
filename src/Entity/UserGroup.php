@@ -56,20 +56,22 @@ class UserGroup
         return $this->users;
     }
 
+    /**
+     * add user to group in user_group_user_entity
+     */
     public function addUser(UserEntity $user): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-        }
+        $this->users[] = $user;
 
         return $this;
     }
 
+    /**
+     * remove user from group by removing user_group_user_entity record
+     */
     public function removeUser(UserEntity $user): self
     {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-        }
+        $this->users->removeElement($user);
 
         return $this;
     }
@@ -108,5 +110,14 @@ class UserGroup
         $this->update_at = $update_at;
 
         return $this;
+    }
+
+    /**
+     * to string magic method to reaturn group names for user groups option in 
+     * user form
+     */
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }
